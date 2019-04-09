@@ -14,10 +14,34 @@ L_GUI_NEED_RELOAD = "|cffff2735You need to reload the UI to apply your changes.|
 
 -- General options
 L_GUI_GENERAL_SUBTEXT = "These settings control the general user interface settings. Type in chat '/uihelp' for help." -- Need review
+L_GUI_GENERAL_WELCOME_MESSAGE = "Message de bienvenue dans la fenêtre de dialogue"
 L_GUI_GENERAL_AUTOSCALE = "Mise à l'échelle automatique"
 L_GUI_GENERAL_UISCALE = "Mettre l'interface à l'échelle (si 'Mise à l'échelle automatique' est désactivée)"
-L_GUI_GENERAL_WELCOME_MESSAGE = "Message de bienvenue dans la fenêtre de dialogue"
-L_GUI_GENERAL_LAG_TOLERANCE = "Ajuste automatiquement la barre de latence Blizzard avec votre propre latence"
+L.media_border_color = "Color for borders" -- Need review
+L.media_backdrop_color = "Color for borders backdrop" -- Need review
+L.media_backdrop_alpha = "Alpha for transparent backdrop" -- Need review
+
+-- Font options
+L.font = "Fonts" -- Need review
+L.font_subtext = "Customize individual fonts for elements." -- Need review
+L.font_stats_font = "Select font" -- Need review
+L.font_stats_font_style = "Font flag" -- Need review
+L.font_stats_font_shadow = "Font shadow" -- Need review
+L.font_subheader_stats = "Stats font" -- Need review
+L.font_subheader_combat = "Combat text font" -- Need review
+L.font_subheader_chat = "Chat font" -- Need review
+L.font_subheader_chat_tabs = "Chat tabs font" -- Need review
+L.font_subheader_action = "Action bars font" -- Need review
+L.font_subheader_threat = "Threat meter font" -- Need review
+L.font_subheader_raidcd = "Raid cooldowns font" -- Need review
+L.font_subheader_cooldown = "Cooldowns timer font" -- Need review
+L.font_subheader_loot = "Loot font" -- Need review
+L.font_subheader_nameplates = "Nameplates font" -- Need review
+L.font_subheader_unit = "Unit frames font" -- Need review
+L.font_subheader_aura = "Auras font" -- Need review
+L.font_subheader_filger = "Filger font" -- Need review
+L.font_subheader_style = "Stylization font" -- Need review
+L.font_subheader_bag = "Bags font" -- Need review
 
 -- Miscellaneous options
 L_GUI_MISC_SUBTEXT = "Other settings that add interesting features." -- Need review
@@ -41,12 +65,14 @@ L_GUI_MISC_COLOR_PICKER = "Palette de couleurs améliorée"
 L_GUI_MISC_ENCHANTMENT_SCROLL = "Onglet : parchemin d'enchantement sur la fenêtre de métiers"
 L_GUI_MISC_ARCHAEOLOGY = "Artéfacts et temps de recharge en Archéologie"
 L_GUI_MISC_CHARS_CURRENCY = "Affiche les jetons et autres monnaies de vos différents personnages"
-L_GUI_MISC_ARMORY_LINK = "Ajouter un lien d'armurerie dans une fenêtre UnitPopupMenus (Cela casse les UnitPopupMenus)"
+L.misc_armory_link = "Add Armory link" -- Need review
+L.misc_armory_link_desc = "Ajouter un lien d'armurerie dans une fenêtre UnitPopupMenus (Cela casse les UnitPopupMenus)"
 L_GUI_MISC_MERCHANT_ITEMLEVEL = "Montrer le niveau d'objet des armes et amures chez le marchand"
 L_GUI_MISC_MINIMIZE_MOUSEOVER = "Survol par la souris pour réduire les quêtes"
 L_GUI_MISC_HIDE_BANNER = "Masquer la fenêtre/bannière de loot des Boss"
 L_GUI_MISC_HIDE_TALKING_HEAD = "Masquer la fenêtre de discussion principale"
 L_GUI_MISC_HIDE_RAID_BUTTON = "Masquer le button pour activer oUF_RaidDPS"
+L_GUI_MISC_LAG_TOLERANCE = "Ajuste automatiquement la barre de latence Blizzard avec votre propre latence"
 
 -- Announcements options
 L_GUI_ANNOUNCEMENTS = "Annonces"
@@ -121,8 +147,10 @@ L_GUI_SKINS_WEAK_AURAS = "WeakAuras"
 -- Combat text options
 L_GUI_COMBATTEXT = "Texte de combat"
 L_GUI_COMBATTEXT_ENABLE = "Activer les textes de combat"
-L_GUI_COMBATTEXT_BLIZZ_HEAD_NUMBERS = "Utiliser les textes de combat de Blizzard"
-L_GUI_COMBATTEXT_DAMAGE_STYLE = "Change la police par défaut des dégâts/soins au dessus de la tête de la cible (Vous devez redémarrer WoW pour valider le changement)"
+L.combattext_blizz_head_numbers = "Enable Blizzard combat text" -- Need review
+L.combattext_blizz_head_numbers_desc = "Utiliser les textes de combat de Blizzard"
+L.combattext_damage_style = "Change default combat font" -- Need review
+L.combattext_damage_style_desc = "Change la police par défaut des dégâts/soins au dessus de la tête de la cible (Vous devez redémarrer WoW pour valider le changement)"
 L_GUI_COMBATTEXT_DAMAGE = "Afficher les dégâts dans une fenêtre dédiée"
 L_GUI_COMBATTEXT_HEALING = "Afficher les soins dans une fenêtre dédiée"
 L_GUI_COMBATTEXT_HOTS = "Afficher les effets des soins périodiques dans la fenêtre de soin"
@@ -273,10 +301,9 @@ L_GUI_GARRISON_ICON = "Icone de la Garnison"
 L_GUI_MINIMAP_SIZE = "Taille de la minicarte"
 L_GUI_MINIMAP_HIDE_COMBAT = "Cacher la minimap en combat"
 L_GUI_MINIMAP_TOGGLE_MENU = "Montre le menu déroulant"
-
--- Map options
-L_GUI_MAP_BG_STYLIZATION = "Personnalisation de l'arrière plan de la carte"
-L_GUI_MAP_FOG_OF_WAR = "Retire le brouillard des zones non explorées sur la carte du monde"
+L.minimap_bg_map_stylization = "Personnalisation de l'arrière plan de la carte"
+L.minimap_fog_of_war = "Retire le brouillard des zones non explorées sur la carte du monde"
+L.minimap_fog_of_war_desc = "Right click on the close button of World Map to activate the option to hide fog of war" -- Need review
 
 -- Loot options
 L_GUI_LOOT_SUBTEXT = "Settings for loot frame." -- Need review
@@ -405,9 +432,12 @@ L_GUI_UF_PORTRAIT_WIDTH = "Largeur des portraits"
 L_GUI_UF_SUBHEADER_PLUGINS = "Plugins" -- Need review
 L_GUI_UF_PLUGINS_GCD = "Scintillement du GCD"
 L_GUI_UF_PLUGINS_SWING = "Barre d'attaque automatique / tir automatique"
-L_GUI_UF_PLUGINS_REPUTATION_BAR = "Barre de réputation"
-L_GUI_UF_PLUGINS_EXPERIENCE_BAR = "Barre d'expérience"
-L_GUI_UF_PLUGINS_ARTIFACT_BAR = "Barre de puissance d'Artefact"
+L.unitframe_plugins_reputation_bar = "Reputation bar" -- Need review
+L.unitframe_plugins_reputation_bar_desc = "Barre de réputation"
+L.unitframe_plugins_experience_bar = "Experience bar" -- Need review
+L.unitframe_plugins_experience_bar_desc = "Barre d'expérience"
+L.unitframe_plugins_artifact_bar = "Azerite Power bar" -- Need review
+L.unitframe_plugins_artifact_bar_desc = "Barre de puissance d'Artefact"
 L_GUI_UF_PLUGINS_SMOOTH_BAR = "Lissage des barres"
 L_GUI_UF_PLUGINS_ENEMY_SPEC = "Afficher les talent de l'ennemi"
 L_GUI_UF_PLUGINS_COMBAT_FEEDBACK = "Texte de combat sur les barres du joueur et de la cible"
@@ -453,14 +483,15 @@ L_GUI_UF_SUBHEADER_ICONS = "Icons" -- Need review
 L_GUI_UF_ICONS_ROLE = "Icone de rôle sur les barres de vie"
 L_GUI_UF_ICONS_RAID_MARK = "Signe de raid"
 L_GUI_UF_ICONS_READY_CHECK = "Icone d'appel"
-L_GUI_UF_ICONS_LEADER = "Icone du Chef de raid, icone de l'assistant, icone du maître du butin"
+L_GUI_UF_ICONS_LEADER = "Icone du Chef de raid, icone de l'assistant"
 L_GUI_UF_ICONS_SUMON = "Faire apparaître les icones sur les barres"
 L_GUI_UF_PLUGINS_DEBUFFHIGHLIGHT_ICON = "Mise en évidence des debuffs texture + îcone"
 L_GUI_UF_PLUGINS_AURA_WATCH = "Aura/debuff de raid"
 L_GUI_UF_PLUGINS_AURA_WATCH_TIMER = "Durée sur les icônes de débuff du raid"
 L_GUI_UF_PLUGINS_PVP_DEBUFFS = "Afficher aussi les debuff JcJ (de la liste)"
 L_GUI_UF_PLUGINS_HEALCOMM = "Barre de soin entrant (incoming)"
-L_GUI_UF_PLUGINS_AUTO_RESURRECTION = "Lance automatiquement le sort de résurrection de masse avec un clic central souris sur une cible morte (ne fonctionne pas avec l'addon Clique activé)"
+L.raidframe_plugins_auto_resurrection = "Auto cast resurrection" -- Need review
+L.raidframe_plugins_auto_resurrection_desc = "Lance automatiquement le sort de résurrection de masse avec un clic central souris sur une cible morte (ne fonctionne pas avec l'addon Clique activé)"
 
 -- Panel options
 L_GUI_TOP_PANEL = "Panneau supérieur"

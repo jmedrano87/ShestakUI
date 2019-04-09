@@ -1,4 +1,5 @@
 local _, ns = ...
+local L = ns
 ----------------------------------------------------------------------------------------
 --	GUI for ShestakUI(by Haleth, Solor)
 ----------------------------------------------------------------------------------------
@@ -95,7 +96,9 @@ end)
 tinsert(ns.buttons, ResetButton)
 
 -- Category
-ns.addCategory("general", GENERAL_LABEL, L_GUI_GENERAL_SUBTEXT)
+ns.addCategory("general", GENERAL_LABEL, L_GUI_GENERAL_SUBTEXT, true)
+ns.addCategory("font", L.font, L.font_subtext, true, true)
+ns.addCategory("skins", L_GUI_SKINS, L_GUI_SKINS_SUBTEXT)
 ns.addCategory("unitframe", UNITFRAME_LABEL, L_GUI_UF_SUBTEXT, true)
 ns.addCategory("unitframe_class_bar", L_GUI_UF_PLUGINS_CLASS_BAR, L_GUI_UF_PLUGINS_CLASS_BAR_SUBTEXT)
 ns.addCategory("raidframe", RAID_FRAMES_LABEL, L_GUI_UF_RAIDFRAMES_SUBTEXT, true)
@@ -107,9 +110,7 @@ ns.addCategory("combattext", L_GUI_COMBATTEXT, COMBATTEXT_SUBTEXT, true)
 ns.addCategory("aura", BUFFOPTIONS_LABEL, BUFFOPTIONS_SUBTEXT)
 ns.addCategory("bag", L_GUI_BAGS, L_GUI_BAGS_SUBTEXT)
 ns.addCategory("minimap", MINIMAP_LABEL, L_GUI_MINIMAP_SUBTEXT)
-ns.addCategory("map", WORLD_MAP, "")
 ns.addCategory("loot", LOOT, L_GUI_LOOT_SUBTEXT)
-ns.addCategory("skins", L_GUI_SKINS, L_GUI_SKINS_SUBTEXT)
 ns.addCategory("filger", L_GUI_FILGER, L_GUI_FILGER_SUBTEXT)
 ns.addCategory("announcements", L_GUI_ANNOUNCEMENTS, L_GUI_ANNOUNCEMENTS_SUBTEXT)
 ns.addCategory("automation", L_GUI_AUTOMATION, L_GUI_AUTOMATION_SUBTEXT)
@@ -130,11 +131,8 @@ do
 	local welcome_message = ns.CreateCheckBox(parent, "welcome_message", L_GUI_GENERAL_WELCOME_MESSAGE)
 	welcome_message:SetPoint("TOPLEFT", parent.subText, "BOTTOMLEFT", 0, 0)
 
-	local custom_lagtolerance = ns.CreateCheckBox(parent, "custom_lagtolerance", L_GUI_GENERAL_LAG_TOLERANCE)
-	custom_lagtolerance:SetPoint("TOPLEFT", welcome_message, "BOTTOMLEFT", 0, 0)
-
 	local auto_scale = ns.CreateCheckBox(parent, "auto_scale", L_GUI_GENERAL_AUTOSCALE)
-	auto_scale:SetPoint("TOPLEFT", custom_lagtolerance, "BOTTOMLEFT", 0, 0)
+	auto_scale:SetPoint("TOPLEFT", welcome_message, "BOTTOMLEFT", 0, 0)
 
 	local uiscale = ns.CreateNumberSlider(parent, "uiscale", nil, nil, 0.4, 1.1, 0.01, true, L_GUI_GENERAL_UISCALE)
 	uiscale:SetPoint("TOPLEFT", auto_scale, "BOTTOMLEFT", 0, -20)
@@ -146,6 +144,263 @@ do
 
 	auto_scale:HookScript("OnClick", toggleUIScaleOptions)
 	uiscale:HookScript("OnShow", toggleUIScaleOptions)
+
+	-- Panel 2
+	local parent = ShestakUIOptionsPanel.general2
+
+	local border_color = ns.CreateColourPicker(parent, "border_color", true)
+	border_color:SetPoint("TOPLEFT", parent.subText, "BOTTOMLEFT", 4, 0)
+
+	local backdrop_color = ns.CreateColourPicker(parent, "backdrop_color", true)
+	backdrop_color:SetPoint("TOPLEFT", border_color, "BOTTOMLEFT", 0, -10)
+
+	local backdrop_alpha = ns.CreateNumberSlider(parent, "backdrop_alpha", nil, nil, 0, 1, 0.05, true)
+	backdrop_alpha:SetPoint("TOPLEFT", backdrop_color, "BOTTOMLEFT", 0, -28)
+end
+
+-- Font
+FontTable = {
+	"Interface\\AddOns\\ShestakUI\\Media\\Fonts\\Normal.ttf",
+	"Interface\\AddOns\\ShestakUI\\Media\\Fonts\\Pixel.ttf",
+	STANDARD_TEXT_FONT
+}
+
+FlagsTable = {
+	"OUTLINE",
+	"OUTLINEMONOCHROME",
+	""
+}
+
+do
+	local parent = ShestakUIOptionsPanel.font
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_stats)
+	subheader:SetPoint("TOPLEFT", parent.subText, "BOTTOMLEFT", 0, 0)
+
+	local stats_font = ns.CreateDropDown(parent, "stats_font", true, nil, FontTable)
+	stats_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local stats_font_style = ns.CreateDropDown(parent, "stats_font_style", true, nil, FlagsTable)
+	stats_font_style:SetPoint("LEFT", stats_font, "RIGHT", 150, 0)
+
+	local stats_font_size = ns.CreateNumberSlider(parent, "stats_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	stats_font_size:SetPoint("TOPLEFT", stats_font, "BOTTOMLEFT", 16, -16)
+
+	local stats_font_shadow = ns.CreateCheckBox(parent, "stats_font_shadow")
+	stats_font_shadow:SetPoint("LEFT", stats_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_combat)
+	subheader:SetPoint("TOPLEFT", stats_font_size, "BOTTOMLEFT", 0, -10)
+
+	local combat_text_font = ns.CreateDropDown(parent, "combat_text_font", true, L.font_stats_font, FontTable)
+	combat_text_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local combat_text_font_style = ns.CreateDropDown(parent, "combat_text_font_style", true, L.font_stats_font_style, FlagsTable)
+	combat_text_font_style:SetPoint("LEFT", combat_text_font, "RIGHT", 150, 0)
+
+	local combat_text_font_size = ns.CreateNumberSlider(parent, "combat_text_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	combat_text_font_size:SetPoint("TOPLEFT", combat_text_font, "BOTTOMLEFT", 16, -16)
+
+	local combat_text_font_shadow = ns.CreateCheckBox(parent, "combat_text_font_shadow", L.font_stats_font_shadow)
+	combat_text_font_shadow:SetPoint("LEFT", combat_text_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_chat)
+	subheader:SetPoint("TOPLEFT", combat_text_font_size, "BOTTOMLEFT", 0, -10)
+
+	local chat_font = ns.CreateDropDown(parent, "chat_font", true, L.font_stats_font, FontTable)
+	chat_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local chat_font_style = ns.CreateDropDown(parent, "chat_font_style", true, L.font_stats_font_style, FlagsTable)
+	chat_font_style:SetPoint("LEFT", chat_font, "RIGHT", 150, 0)
+
+	local chat_font_shadow = ns.CreateCheckBox(parent, "chat_font_shadow", L.font_stats_font_shadow)
+	chat_font_shadow:SetPoint("TOPLEFT", chat_font, "BOTTOMLEFT", 16, -7)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_chat_tabs)
+	subheader:SetPoint("TOPLEFT", chat_font_shadow, "BOTTOMLEFT", 0, -10)
+
+	local chat_tabs_font = ns.CreateDropDown(parent, "chat_tabs_font", true, L.font_stats_font, FontTable)
+	chat_tabs_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local chat_tabs_font_style = ns.CreateDropDown(parent, "chat_tabs_font_style", true, L.font_stats_font_style, FlagsTable)
+	chat_tabs_font_style:SetPoint("LEFT", chat_tabs_font, "RIGHT", 150, 0)
+
+	local chat_tabs_font_size = ns.CreateNumberSlider(parent, "chat_tabs_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	chat_tabs_font_size:SetPoint("TOPLEFT", chat_tabs_font, "BOTTOMLEFT", 16, -16)
+
+	local chat_tabs_font_shadow = ns.CreateCheckBox(parent, "chat_tabs_font_shadow", L.font_stats_font_shadow)
+	chat_tabs_font_shadow:SetPoint("LEFT", chat_tabs_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_action)
+	subheader:SetPoint("TOPLEFT", chat_tabs_font_size, "BOTTOMLEFT", 0, -10)
+
+	local action_bars_font = ns.CreateDropDown(parent, "action_bars_font", true, L.font_stats_font, FontTable)
+	action_bars_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local action_bars_font_style = ns.CreateDropDown(parent, "action_bars_font_style", true, L.font_stats_font_style, FlagsTable)
+	action_bars_font_style:SetPoint("LEFT", action_bars_font, "RIGHT", 150, 0)
+
+	local action_bars_font_size = ns.CreateNumberSlider(parent, "action_bars_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	action_bars_font_size:SetPoint("TOPLEFT", action_bars_font, "BOTTOMLEFT", 16, -16)
+
+	local action_bars_font_shadow = ns.CreateCheckBox(parent, "action_bars_font_shadow", L.font_stats_font_shadow)
+	action_bars_font_shadow:SetPoint("LEFT", action_bars_font_size, "RIGHT", 160, 0)
+
+	-- Panel 2
+	local parent = ShestakUIOptionsPanel.font2
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_threat)
+	subheader:SetPoint("TOPLEFT", parent.subText, "BOTTOMLEFT", 0, 0)
+
+	local threat_meter_font = ns.CreateDropDown(parent, "threat_meter_font", true, L.font_stats_font, FontTable)
+	threat_meter_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local threat_meter_font_style = ns.CreateDropDown(parent, "threat_meter_font_style", true, L.font_stats_font_style, FlagsTable)
+	threat_meter_font_style:SetPoint("LEFT", threat_meter_font, "RIGHT", 150, 0)
+
+	local threat_meter_font_size = ns.CreateNumberSlider(parent, "threat_meter_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	threat_meter_font_size:SetPoint("TOPLEFT", threat_meter_font, "BOTTOMLEFT", 16, -16)
+
+	local threat_meter_font_shadow = ns.CreateCheckBox(parent, "threat_meter_font_shadow", L.font_stats_font_shadow)
+	threat_meter_font_shadow:SetPoint("LEFT", threat_meter_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_raidcd)
+	subheader:SetPoint("TOPLEFT", threat_meter_font_size, "BOTTOMLEFT", 0, -10)
+
+	local raid_cooldowns_font = ns.CreateDropDown(parent, "raid_cooldowns_font", true, L.font_stats_font, FontTable)
+	raid_cooldowns_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local raid_cooldowns_font_style = ns.CreateDropDown(parent, "raid_cooldowns_font_style", true, L.font_stats_font_style, FlagsTable)
+	raid_cooldowns_font_style:SetPoint("LEFT", raid_cooldowns_font, "RIGHT", 150, 0)
+
+	local raid_cooldowns_font_size = ns.CreateNumberSlider(parent, "raid_cooldowns_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	raid_cooldowns_font_size:SetPoint("TOPLEFT", raid_cooldowns_font, "BOTTOMLEFT", 16, -16)
+
+	local raid_cooldowns_font_shadow = ns.CreateCheckBox(parent, "raid_cooldowns_font_shadow", L.font_stats_font_shadow)
+	raid_cooldowns_font_shadow:SetPoint("LEFT", raid_cooldowns_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_cooldown)
+	subheader:SetPoint("TOPLEFT", raid_cooldowns_font_size, "BOTTOMLEFT", 0, -10)
+
+	local cooldown_timers_font = ns.CreateDropDown(parent, "cooldown_timers_font", true, L.font_stats_font, FontTable)
+	cooldown_timers_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local cooldown_timers_font_style = ns.CreateDropDown(parent, "cooldown_timers_font_style", true, L.font_stats_font_style, FlagsTable)
+	cooldown_timers_font_style:SetPoint("LEFT", cooldown_timers_font, "RIGHT", 150, 0)
+
+	local cooldown_timers_font_size = ns.CreateNumberSlider(parent, "cooldown_timers_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	cooldown_timers_font_size:SetPoint("TOPLEFT", cooldown_timers_font, "BOTTOMLEFT", 16, -16)
+
+	local cooldown_timers_font_shadow = ns.CreateCheckBox(parent, "cooldown_timers_font_shadow", L.font_stats_font_shadow)
+	cooldown_timers_font_shadow:SetPoint("LEFT", cooldown_timers_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_loot)
+	subheader:SetPoint("TOPLEFT", cooldown_timers_font_size, "BOTTOMLEFT", 0, -10)
+
+	local loot_font = ns.CreateDropDown(parent, "loot_font", true, L.font_stats_font, FontTable)
+	loot_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local loot_font_style = ns.CreateDropDown(parent, "loot_font_style", true, L.font_stats_font_style, FlagsTable)
+	loot_font_style:SetPoint("LEFT", loot_font, "RIGHT", 150, 0)
+
+	local loot_font_size = ns.CreateNumberSlider(parent, "loot_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	loot_font_size:SetPoint("TOPLEFT", loot_font, "BOTTOMLEFT", 16, -16)
+
+	local loot_font_shadow = ns.CreateCheckBox(parent, "loot_font_shadow", L.font_stats_font_shadow)
+	loot_font_shadow:SetPoint("LEFT", loot_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_nameplates)
+	subheader:SetPoint("TOPLEFT", loot_font_size, "BOTTOMLEFT", 0, -10)
+
+	local nameplates_font = ns.CreateDropDown(parent, "nameplates_font", true, L.font_stats_font, FontTable)
+	nameplates_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local nameplates_font_style = ns.CreateDropDown(parent, "nameplates_font_style", true, L.font_stats_font_style, FlagsTable)
+	nameplates_font_style:SetPoint("LEFT", nameplates_font, "RIGHT", 150, 0)
+
+	local nameplates_font_size = ns.CreateNumberSlider(parent, "nameplates_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	nameplates_font_size:SetPoint("TOPLEFT", nameplates_font, "BOTTOMLEFT", 16, -16)
+
+	local nameplates_font_shadow = ns.CreateCheckBox(parent, "nameplates_font_shadow", L.font_stats_font_shadow)
+	nameplates_font_shadow:SetPoint("LEFT", nameplates_font_size, "RIGHT", 160, 0)
+
+	-- Panel 3
+	local parent = ShestakUIOptionsPanel.font3
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_unit)
+	subheader:SetPoint("TOPLEFT", parent.subText, "BOTTOMLEFT", 0, 0)
+
+	local unit_frames_font = ns.CreateDropDown(parent, "unit_frames_font", true, L.font_stats_font, FontTable)
+	unit_frames_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local unit_frames_font_style = ns.CreateDropDown(parent, "unit_frames_font_style", true, L.font_stats_font_style, FlagsTable)
+	unit_frames_font_style:SetPoint("LEFT", unit_frames_font, "RIGHT", 150, 0)
+
+	local unit_frames_font_size = ns.CreateNumberSlider(parent, "unit_frames_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	unit_frames_font_size:SetPoint("TOPLEFT", unit_frames_font, "BOTTOMLEFT", 16, -16)
+
+	local unit_frames_font_shadow = ns.CreateCheckBox(parent, "unit_frames_font_shadow", L.font_stats_font_shadow)
+	unit_frames_font_shadow:SetPoint("LEFT", unit_frames_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_aura)
+	subheader:SetPoint("TOPLEFT", unit_frames_font_size, "BOTTOMLEFT", 0, -10)
+
+	local auras_font = ns.CreateDropDown(parent, "auras_font", true, L.font_stats_font, FontTable)
+	auras_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local auras_font_style = ns.CreateDropDown(parent, "auras_font_style", true, L.font_stats_font_style, FlagsTable)
+	auras_font_style:SetPoint("LEFT", auras_font, "RIGHT", 150, 0)
+
+	local auras_font_size = ns.CreateNumberSlider(parent, "auras_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	auras_font_size:SetPoint("TOPLEFT", auras_font, "BOTTOMLEFT", 16, -16)
+
+	local auras_font_shadow = ns.CreateCheckBox(parent, "auras_font_shadow", L.font_stats_font_shadow)
+	auras_font_shadow:SetPoint("LEFT", auras_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_filger)
+	subheader:SetPoint("TOPLEFT", auras_font_size, "BOTTOMLEFT", 0, -10)
+
+	local filger_font = ns.CreateDropDown(parent, "filger_font", true, L.font_stats_font, FontTable)
+	filger_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local filger_font_style = ns.CreateDropDown(parent, "filger_font_style", true, L.font_stats_font_style, FlagsTable)
+	filger_font_style:SetPoint("LEFT", filger_font, "RIGHT", 150, 0)
+
+	local filger_font_size = ns.CreateNumberSlider(parent, "filger_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	filger_font_size:SetPoint("TOPLEFT", filger_font, "BOTTOMLEFT", 16, -16)
+
+	local filger_font_shadow = ns.CreateCheckBox(parent, "filger_font_shadow", L.font_stats_font_shadow)
+	filger_font_shadow:SetPoint("LEFT", filger_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_style)
+	subheader:SetPoint("TOPLEFT", filger_font_size, "BOTTOMLEFT", 0, -10)
+
+	local stylization_font = ns.CreateDropDown(parent, "stylization_font", true, L.font_stats_font, FontTable)
+	stylization_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local stylization_font_style = ns.CreateDropDown(parent, "stylization_font_style", true, L.font_stats_font_style, FlagsTable)
+	stylization_font_style:SetPoint("LEFT", stylization_font, "RIGHT", 150, 0)
+
+	local stylization_font_size = ns.CreateNumberSlider(parent, "stylization_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	stylization_font_size:SetPoint("TOPLEFT", stylization_font, "BOTTOMLEFT", 16, -16)
+
+	local stylization_font_shadow = ns.CreateCheckBox(parent, "stylization_font_shadow", L.font_stats_font_shadow)
+	stylization_font_shadow:SetPoint("LEFT", stylization_font_size, "RIGHT", 160, 0)
+
+	local subheader = ns.addSubCategory(parent, L.font_subheader_bag)
+	subheader:SetPoint("TOPLEFT", stylization_font_size, "BOTTOMLEFT", 0, -10)
+
+	local bags_font = ns.CreateDropDown(parent, "bags_font", true, L.font_stats_font, FontTable)
+	bags_font:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", -16, -10)
+
+	local bags_font_style = ns.CreateDropDown(parent, "bags_font_style", true, L.font_stats_font_style, FlagsTable)
+	bags_font_style:SetPoint("LEFT", bags_font, "RIGHT", 150, 0)
+
+	local bags_font_size = ns.CreateNumberSlider(parent, "bags_font_size", nil, nil, 0, 32, 1, true, FONT_SIZE)
+	bags_font_size:SetPoint("TOPLEFT", bags_font, "BOTTOMLEFT", 16, -16)
+
+	local bags_font_shadow = ns.CreateCheckBox(parent, "bags_font_shadow", L.font_stats_font_shadow)
+	bags_font_shadow:SetPoint("LEFT", bags_font_size, "RIGHT", 160, 0)
 end
 
 -- Miscellaneous
@@ -194,6 +449,8 @@ do
 	local click_cast_filter = ns.CreateCheckBox(parent, "click_cast_filter", L_GUI_MISC_CLICK_CAST_FILTER)
 	click_cast_filter:SetPoint("TOPLEFT", click_cast, "BOTTOMLEFT", 20, 0)
 
+	click_cast.children = {click_cast_filter}
+
 	local move_blizzard = ns.CreateCheckBox(parent, "move_blizzard", L_GUI_MISC_MOVE_BLIZZARD)
 	move_blizzard:SetPoint("TOPLEFT", click_cast_filter, "BOTTOMLEFT", -20, 0)
 
@@ -209,7 +466,7 @@ do
 	local chars_currency = ns.CreateCheckBox(parent, "chars_currency", L_GUI_MISC_CHARS_CURRENCY)
 	chars_currency:SetPoint("TOPLEFT", archaeology, "BOTTOMLEFT", 0, 0)
 
-	local armory_link = ns.CreateCheckBox(parent, "armory_link", L_GUI_MISC_ARMORY_LINK)
+	local armory_link = ns.CreateCheckBox(parent, "armory_link")
 	armory_link:SetPoint("TOPLEFT", chars_currency, "BOTTOMLEFT", 0, 0)
 
 	local merchant_itemlevel = ns.CreateCheckBox(parent, "merchant_itemlevel", L_GUI_MISC_MERCHANT_ITEMLEVEL)
@@ -229,6 +486,9 @@ do
 
 	local hide_raid_button = ns.CreateCheckBox(parent, "hide_raid_button", L_GUI_MISC_HIDE_RAID_BUTTON)
 	hide_raid_button:SetPoint("TOPLEFT", hide_talking_head, "BOTTOMLEFT", 0, 0)
+
+	local custom_lagtolerance = ns.CreateCheckBox(parent, "custom_lagtolerance", L_GUI_MISC_LAG_TOLERANCE)
+	custom_lagtolerance:SetPoint("TOPLEFT", hide_raid_button, "BOTTOMLEFT", 0, 0)
 end
 
 -- Announcements
@@ -247,6 +507,8 @@ do
 	local spells_from_all = ns.CreateCheckBox(parent, "spells_from_all", L_GUI_ANNOUNCEMENTS_SPELLS_FROM_ALL)
 	spells_from_all:SetPoint("TOPLEFT", spells, "BOTTOMLEFT", 20, 0)
 
+	spells.children = {spells_from_all}
+
 	local toys = ns.CreateCheckBox(parent, "toys", L_GUI_ANNOUNCEMENTS_TOY_TRAIN)
 	toys:SetPoint("TOPLEFT", spells_from_all, "BOTTOMLEFT", -20, 0)
 
@@ -264,6 +526,8 @@ do
 
 	local flask_food_raid = ns.CreateCheckBox(parent, "flask_food_raid", L_GUI_ANNOUNCEMENTS_FLASK_FOOD_RAID)
 	flask_food_raid:SetPoint("TOPLEFT", flask_food_auto, "BOTTOMLEFT", 0, 0)
+
+	flask_food.children = {flask_food_auto, flask_food_raid}
 
 	local feasts = ns.CreateCheckBox(parent, "feasts", L_GUI_ANNOUNCEMENTS_FEASTS)
 	feasts:SetPoint("TOPLEFT", flask_food_raid, "BOTTOMLEFT", -20, 0)
@@ -305,6 +569,8 @@ do
 
 	local auto_collapse_reload = ns.CreateCheckBox(parent, "auto_collapse_reload", L_GUI_AUTOMATION_AUTO_COLLAPSE_RELOAD)
 	auto_collapse_reload:SetPoint("TOPLEFT", auto_collapse, "BOTTOMLEFT", 20, 0)
+
+	auto_collapse.children = {auto_collapse_reload}
 
 	local skip_cinematic = ns.CreateCheckBox(parent, "skip_cinematic", L_GUI_AUTOMATION_SKIP_CINEMATIC)
 	skip_cinematic:SetPoint("TOPLEFT", auto_collapse_reload, "BOTTOMLEFT", -20, 0)
@@ -369,6 +635,8 @@ do
 	local dbm_movable = ns.CreateCheckBox(parent, "dbm_movable", L_GUI_SKINS_DBM_MOVABLE)
 	dbm_movable:SetPoint("TOPLEFT", dbm, "BOTTOMLEFT", 20, 0)
 
+	dbm.children = {dbm_movable}
+
 	local dominos = ns.CreateCheckBox(parent, "dominos", L_GUI_SKINS_DOMINOS)
 	dominos:SetPoint("TOPLEFT", dbm_movable, "BOTTOMLEFT", -20, 0)
 
@@ -428,11 +696,13 @@ do
 	local enable = ns.CreateCheckBox(parent, "enable", L_GUI_COMBATTEXT_ENABLE)
 	enable:SetPoint("TOPLEFT", parent.subText, "BOTTOMLEFT", 0, 0)
 
-	local blizz_head_numbers = ns.CreateCheckBox(parent, "blizz_head_numbers", L_GUI_COMBATTEXT_BLIZZ_HEAD_NUMBERS)
+	local blizz_head_numbers = ns.CreateCheckBox(parent, "blizz_head_numbers")
 	blizz_head_numbers:SetPoint("TOPLEFT", enable, "BOTTOMLEFT", 0, 0)
 
-	local damage_style = ns.CreateCheckBox(parent, "damage_style", L_GUI_COMBATTEXT_DAMAGE_STYLE)
+	local damage_style = ns.CreateCheckBox(parent, "damage_style")
 	damage_style:SetPoint("TOPLEFT", blizz_head_numbers, "BOTTOMLEFT", 20, 0)
+
+	blizz_head_numbers.children = {damage_style}
 
 	local damage = ns.CreateCheckBox(parent, "damage", L_GUI_COMBATTEXT_DAMAGE)
 	damage:SetPoint("TOPLEFT", damage_style, "BOTTOMLEFT", -20, 0)
@@ -536,7 +806,7 @@ do
 	local raid_buffs_size = ns.CreateNumberSlider(parent, "raid_buffs_size", nil, nil, 0, 30, 1, true, L_GUI_REMINDER_RAID_SIZE, L_GUI_REMINDER_RAID_SIZE_DESC)
 	raid_buffs_size:SetPoint("TOPLEFT", raid_buffs_always, "BOTTOMLEFT", 0, -20)
 
-	local raid_buffs_alpha = ns.CreateNumberSlider(parent, "raid_buffs_alpha", nil, nil, 0, 1, 0.5, true, L_GUI_REMINDER_RAID_ALPHA, L_GUI_REMINDER_RAID_ALPHA_DESC, true)
+	local raid_buffs_alpha = ns.CreateNumberSlider(parent, "raid_buffs_alpha", nil, nil, 0, 1, 0.05, true, L_GUI_REMINDER_RAID_ALPHA, L_GUI_REMINDER_RAID_ALPHA_DESC)
 	raid_buffs_alpha:SetPoint("TOPLEFT", raid_buffs_size, "BOTTOMLEFT", 0, -20)
 end
 
@@ -611,7 +881,7 @@ do
 	local sound = ns.CreateCheckBox(parent, "sound", L_GUI_COOLDOWN_PULSE_SOUND)
 	sound:SetPoint("TOPLEFT", size, "BOTTOMLEFT", 0, -10)
 
-	local anim_scale = ns.CreateNumberSlider(parent, "anim_scale", nil, nil, 0, 3, 0.01, true, L_GUI_COOLDOWN_PULSE_ANIM_SCALE, nil, true)
+	local anim_scale = ns.CreateNumberSlider(parent, "anim_scale", nil, nil, 0, 3, 0.05, true, L_GUI_COOLDOWN_PULSE_ANIM_SCALE)
 	anim_scale:SetPoint("TOPLEFT", sound, "BOTTOMLEFT", 0, -20)
 
 	local hold_time = ns.CreateNumberSlider(parent, "hold_time", nil, nil, 0, 5, 1, true, L_GUI_COOLDOWN_PULSE_HOLD_TIME)
@@ -723,7 +993,7 @@ do
 	local background = ns.CreateCheckBox(parent, "background", L_GUI_CHAT_BACKGROUND)
 	background:SetPoint("TOPLEFT", enable, "BOTTOMLEFT", 0, 0)
 
-	local background_alpha = ns.CreateNumberSlider(parent, "background_alpha", nil, nil, 0, 1, 0.05, true, L_GUI_CHAT_BACKGROUND_ALPHA, nil, true)
+	local background_alpha = ns.CreateNumberSlider(parent, "background_alpha", nil, nil, 0, 1, 0.05, true, L_GUI_CHAT_BACKGROUND_ALPHA)
 	background_alpha:SetPoint("TOPLEFT", background, "BOTTOMLEFT", 0, -20)
 
 	local filter = ns.CreateCheckBox(parent, "filter", L_GUI_CHAT_SPAM)
@@ -732,10 +1002,10 @@ do
 	local spam = ns.CreateCheckBox(parent, "spam", L_GUI_CHAT_GOLD)
 	spam:SetPoint("TOPLEFT", filter, "BOTTOMLEFT", 0, 0)
 
-	local width = ns.CreateNumberSlider(parent, "width", nil, nil, 0, 500, 1, true, L_GUI_CHAT_WIDTH, nil)
+	local width = ns.CreateNumberSlider(parent, "width", nil, nil, 0, 500, 1, true, L_GUI_CHAT_WIDTH)
 	width:SetPoint("TOPLEFT", spam, "BOTTOMLEFT", 0, -20)
 
-	local height = ns.CreateNumberSlider(parent, "height", nil, nil, 0, 200, 1, true, L_GUI_CHAT_HEIGHT, nil)
+	local height = ns.CreateNumberSlider(parent, "height", nil, nil, 0, 200, 1, true, L_GUI_CHAT_HEIGHT)
 	height:SetPoint("TOPLEFT", width, "BOTTOMLEFT", 0, -20)
 
 	local chat_bar = ns.CreateCheckBox(parent, "chat_bar", L_GUI_CHAT_BAR)
@@ -743,6 +1013,8 @@ do
 
 	local chat_bar_mouseover = ns.CreateCheckBox(parent, "chat_bar_mouseover", L_GUI_CHAT_BAR_MOUSEOVER)
 	chat_bar_mouseover:SetPoint("TOPLEFT", chat_bar, "BOTTOMLEFT", 20, 0)
+
+	chat_bar.children = {chat_bar_mouseover}
 
 	local time_color = ns.CreateColourPicker(parent, "time_color", true, L_GUI_CHAT_TIMESTAMP)
 	time_color:SetPoint("TOPLEFT", chat_bar_mouseover, "BOTTOMLEFT", -16, -10)
@@ -810,16 +1082,15 @@ do
 
 	local toggle_menu = ns.CreateCheckBox(parent, "toggle_menu", L_GUI_MINIMAP_TOGGLE_MENU)
 	toggle_menu:SetPoint("TOPLEFT", hide_combat, "BOTTOMLEFT", 0, 0)
-end
 
--- Map
-do
-	local parent = ShestakUIOptionsPanel.map
+	-- Other
+	local subheader = ns.addSubCategory(parent, OTHER)
+	subheader:SetPoint("TOPLEFT", toggle_menu, "BOTTOMLEFT", 0, -16)
 
-	local bg_map_stylization = ns.CreateCheckBox(parent, "bg_map_stylization", L_GUI_MAP_BG_STYLIZATION)
-	bg_map_stylization:SetPoint("TOPLEFT", parent.subText, "BOTTOMLEFT", 0, 0)
+	local bg_map_stylization = ns.CreateCheckBox(parent, "bg_map_stylization")
+	bg_map_stylization:SetPoint("TOPLEFT", subheader, "BOTTOMLEFT", 0, -8)
 
-	local fog_of_war = ns.CreateCheckBox(parent, "fog_of_war", L_GUI_MAP_FOG_OF_WAR)
+	local fog_of_war = ns.CreateCheckBox(parent, "fog_of_war")
 	fog_of_war:SetPoint("TOPLEFT", bg_map_stylization, "BOTTOMLEFT", 0, 0)
 end
 
@@ -972,6 +1243,8 @@ do
 	local petbar_mouseover = ns.CreateCheckBox(parent, "petbar_mouseover", L_GUI_ACTIONBAR_PETBAR_MOUSEOVER)
 	petbar_mouseover:SetPoint("TOPLEFT", petbar_horizontal, "BOTTOMLEFT", 20, 0)
 
+	petbar_horizontal.children = {petbar_mouseover}
+
 	local stancebar_hide = ns.CreateCheckBox(parent, "stancebar_hide", L_GUI_ACTIONBAR_STANCEBAR_HIDE)
 	stancebar_hide:SetPoint("TOPLEFT", petbar_mouseover, "BOTTOMLEFT", -20, 0)
 
@@ -981,11 +1254,15 @@ do
 	local stancebar_mouseover = ns.CreateCheckBox(parent, "stancebar_mouseover", L_GUI_ACTIONBAR_STANCEBAR_MOUSEOVER)
 	stancebar_mouseover:SetPoint("TOPLEFT", stancebar_horizontal, "BOTTOMLEFT", 20, 0)
 
+	stancebar_horizontal.children = {stancebar_mouseover}
+
 	local micromenu = ns.CreateCheckBox(parent, "micromenu", L_GUI_ACTIONBAR_MICROMENU)
 	micromenu:SetPoint("TOPLEFT", stancebar_mouseover, "BOTTOMLEFT", -20, 0)
 
 	local micromenu_mouseover = ns.CreateCheckBox(parent, "micromenu_mouseover", L_GUI_ACTIONBAR_MICROMENU_MOUSEOVER)
 	micromenu_mouseover:SetPoint("TOPLEFT", micromenu, "BOTTOMLEFT", 20, 0)
+
+	micromenu.children = {micromenu_mouseover}
 end
 
 -- Auras/Buffs/Debuffs
@@ -1183,13 +1460,13 @@ do
 	local plugins_swing = ns.CreateCheckBox(parent, "plugins_swing", L_GUI_UF_PLUGINS_SWING)
 	plugins_swing:SetPoint("TOPLEFT", plugins_gcd, "BOTTOMLEFT", 0, 0)
 
-	local plugins_reputation_bar = ns.CreateCheckBox(parent, "plugins_reputation_bar", L_GUI_UF_PLUGINS_REPUTATION_BAR)
+	local plugins_reputation_bar = ns.CreateCheckBox(parent, "plugins_reputation_bar")
 	plugins_reputation_bar:SetPoint("TOPLEFT", plugins_swing, "BOTTOMLEFT", 0, 0)
 
-	local plugins_experience_bar = ns.CreateCheckBox(parent, "plugins_experience_bar", L_GUI_UF_PLUGINS_EXPERIENCE_BAR)
+	local plugins_experience_bar = ns.CreateCheckBox(parent, "plugins_experience_bar")
 	plugins_experience_bar:SetPoint("TOPLEFT", plugins_reputation_bar, "BOTTOMLEFT", 0, 0)
 
-	local plugins_artifact_bar = ns.CreateCheckBox(parent, "plugins_artifact_bar", L_GUI_UF_PLUGINS_ARTIFACT_BAR)
+	local plugins_artifact_bar = ns.CreateCheckBox(parent, "plugins_artifact_bar")
 	plugins_artifact_bar:SetPoint("TOPLEFT", plugins_experience_bar, "BOTTOMLEFT", 0, 0)
 
 	local plugins_smooth_bar = ns.CreateCheckBox(parent, "plugins_smooth_bar", L_GUI_UF_PLUGINS_SMOOTH_BAR)
@@ -1223,6 +1500,8 @@ do
 
 	local combo_old = ns.CreateCheckBox(parent, "combo_old", L_GUI_UF_PLUGINS_COMBO_BAR_OLD)
 	combo_old:SetPoint("TOPLEFT", combo_always, "BOTTOMLEFT", 0, 0)
+
+	combo.children = {combo_always, combo_old}
 
 	local arcane = ns.CreateCheckBox(parent, "arcane", L_GUI_UF_PLUGINS_ARCANE_BAR)
 	arcane:SetPoint("TOPLEFT", combo_old, "BOTTOMLEFT", -20, 0)
@@ -1271,7 +1550,7 @@ do
 	local show_range = ns.CreateCheckBox(parent, "show_range", L_GUI_UF_SHOW_RANGE)
 	show_range:SetPoint("TOPLEFT", alpha_health, "BOTTOMLEFT", 0, 0)
 
-	local range_alpha = ns.CreateNumberSlider(parent, "range_alpha", nil, nil, 0, 1, 0.05, true, L_GUI_UF_RANGE_ALPHA, L_GUI_UF_RANGE_ALPHA_DESC, true)
+	local range_alpha = ns.CreateNumberSlider(parent, "range_alpha", nil, nil, 0, 1, 0.05, true, L_GUI_UF_RANGE_ALPHA, L_GUI_UF_RANGE_ALPHA_DESC)
 	range_alpha:SetPoint("TOPLEFT", show_range, "BOTTOMLEFT", 0, -20)
 
 	-- Frames
@@ -1333,11 +1612,16 @@ do
 	local plugins_aura_watch_timer = ns.CreateCheckBox(parent, "plugins_aura_watch_timer", L_GUI_UF_PLUGINS_AURA_WATCH_TIMER)
 	plugins_aura_watch_timer:SetPoint("TOPLEFT", plugins_aura_watch, "BOTTOMLEFT", 20, 0)
 
+	plugins_aura_watch.children = {plugins_aura_watch_timer}
+
 	local plugins_pvp_debuffs = ns.CreateCheckBox(parent, "plugins_pvp_debuffs", L_GUI_UF_PLUGINS_PVP_DEBUFFS)
 	plugins_pvp_debuffs:SetPoint("TOPLEFT", plugins_aura_watch_timer, "BOTTOMLEFT", -20, 0)
 
 	local plugins_healcomm = ns.CreateCheckBox(parent, "plugins_healcomm", L_GUI_UF_PLUGINS_HEALCOMM)
 	plugins_healcomm:SetPoint("TOPLEFT", plugins_pvp_debuffs, "BOTTOMLEFT", 0, 0)
+
+	local plugins_auto_resurrection = ns.CreateCheckBox(parent, "plugins_auto_resurrection")
+	plugins_auto_resurrection:SetPoint("TOPLEFT", plugins_healcomm, "BOTTOMLEFT", 0, 0)
 end
 
 -- Top Panel
@@ -1450,7 +1734,7 @@ do
 		subtitle:SetWidth(580)
 		subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 		subtitle:SetJustifyH("LEFT")
-		subtitle:SetText("UI Site: |cff298F00http//shestak.org|r\nGitHub: |cff298F00https://github.com/Shestak/ShestakUI|r\nCurse: |cff298F00https://www.curseforge.com/wow/addons/shestakui/|r\nWoWInterface: |cff298F00http://www.wowinterface.com/downloads/info19033-ShestakUI.html|r\nChange Log: |cff298F00https://github.com/Shestak/ShestakUI/commits/master/|r")
+		subtitle:SetText("UI Site: |cff298F00http//shestak.org|r\nGitHub: |cff298F00https://github.com/Shestak/ShestakUI|r\nCurse: |cff298F00https://www.curseforge.com/wow/addons/shestakui/|r\nWoWInterface: |cff298F00https://www.wowinterface.com/downloads/info19033-ShestakUI.html|r\nChange Log: |cff298F00https://github.com/Shestak/ShestakUI/commits/master/|r")
 
 		local title2 = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 		title2:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -16)
@@ -1460,7 +1744,7 @@ do
 		subtitle2:SetWidth(580)
 		subtitle2:SetPoint("TOPLEFT", title2, "BOTTOMLEFT", 0, -8)
 		subtitle2:SetJustifyH("LEFT")
-		subtitle2:SetText("AcidWeb, Aezay, Affli, Ailae, Allez, ALZA, Ammo, Astromech, Beoko, Bitbyte, Blamdarot, Bozo, Caellian, Califpornia, Camealion, Chiril, CrusaderHeimdall, Cybey, Dawn, Don Kaban, Dridzt, Duffed, Durcyn, Eclipse, Egingell, Elv22, Evilpaul, Evl, Favorit, Fernir, Foof, Freebaser, g0st, Gethe, Gorlasch, Gsuz, Haleth, Haste, Hoochie, Hungtar, HyPeRnIcS, Hydra, Ildyria, iSpawnAtHome, Jaslm, Karl_w_w, Karudon, Katae, Kellett, Kemayo, Killakhan, Kraftman, Leatrix, m2jest1c, Magdain, Meurtcriss, Monolit, MrRuben5, Myrilandell of Lothar, Nathanyel, Nefarion, Nightcracker, Nils Ruesch, p3lim, Partha, Phanx, Renstrom, RustamIrzaev, Safturento, Sanex, Sara.Festung, SDPhantom, Semlar, Sildor, Silverwind, SinaC, Slakah, Soeters, Starlon, Suicidal Katt, Syzgyn, Tekkub, Telroth, Thalyra, Thizzelle, Tia Lynn, Tohveli, Tukz, Tuller, Veev, Villiv, Wetxius, Woffle of Dark Iron, Wrug, Xuerian, Yleaf, Zork.")
+		subtitle2:SetText(GetAddOnMetadata("ShestakUI", "X-Credits"))
 
 		local title3 = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 		title3:SetPoint("TOPLEFT", subtitle2, "BOTTOMLEFT", 0, -16)
@@ -1470,7 +1754,7 @@ do
 		subtitle3:SetWidth(580)
 		subtitle3:SetPoint("TOPLEFT", title3, "BOTTOMLEFT", 0, -8)
 		subtitle3:SetJustifyH("LEFT")
-		subtitle3:SetText("Aelb, AlbertDuval, Alwa, Baine, Chubidu, Cranan, eXecrate, F5Hellbound, Ianchan, Leg883, Mania, Nanjiqq, Oz, Puree, Sakaras, Seal, Sinaris, Spacedragon, Tat2dawn, Tibles, Vienchen, Wetxius.")
+		subtitle3:SetText(GetAddOnMetadata("ShestakUI", "X-Translation"))
 
 		local title4 = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 		title4:SetPoint("TOPLEFT", subtitle3, "BOTTOMLEFT", 0, -16)
@@ -1480,7 +1764,7 @@ do
 		subtitle4:SetWidth(580)
 		subtitle4:SetPoint("TOPLEFT", title4, "BOTTOMLEFT", 0, -8)
 		subtitle4:SetJustifyH("LEFT")
-		subtitle4:SetText("Akimba, Antthemage, Crunching, Dandruff, DesFolk, Elfrey, Ente, Erratic, Falchior, Gromcha, Halogen, Homicidal Retribution, ILF7, Illusion, Ipton, k07n, Kazarl, Lanseb, Leots, m2jest1c, MoLLIa, Nefrit, Noobolov, Obakol, Oz, PterOs, Sart, Scorpions, Sitatunga, Sw2rT1, Tryllemann, Wetxius, Yakodzuna, UI Users and Russian Community.")
+		subtitle4:SetText(GetAddOnMetadata("ShestakUI", "X-Thanks"))
 
 		local version = self:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		version:SetPoint("BOTTOMRIGHT", -16, 16)

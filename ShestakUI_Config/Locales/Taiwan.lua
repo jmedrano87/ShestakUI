@@ -14,10 +14,34 @@ L_GUI_NEED_RELOAD = "|cffff2735You need to reload the UI to apply your changes.|
 
 -- General options
 L_GUI_GENERAL_SUBTEXT = "These settings control the general user interface settings. Type in chat '/uihelp' for help." -- Need review
+L_GUI_GENERAL_WELCOME_MESSAGE = "歡迎信息"
 L_GUI_GENERAL_AUTOSCALE = "自動UI縮放"
 L_GUI_GENERAL_UISCALE = "UI縮放(當'自動UI縮放'關閉時)"
-L_GUI_GENERAL_WELCOME_MESSAGE = "歡迎信息"
-L_GUI_GENERAL_LAG_TOLERANCE = "自動更新自訂延遲容許值"
+L.media_border_color = "Color for borders" -- Need review
+L.media_backdrop_color = "Color for borders backdrop" -- Need review
+L.media_backdrop_alpha = "Alpha for transparent backdrop" -- Need review
+
+-- Font options
+L.font = "Fonts" -- Need review
+L.font_subtext = "Customize individual fonts for elements." -- Need review
+L.font_stats_font = "Select font" -- Need review
+L.font_stats_font_style = "Font flag" -- Need review
+L.font_stats_font_shadow = "Font shadow" -- Need review
+L.font_subheader_stats = "Stats font" -- Need review
+L.font_subheader_combat = "Combat text font" -- Need review
+L.font_subheader_chat = "Chat font" -- Need review
+L.font_subheader_chat_tabs = "Chat tabs font" -- Need review
+L.font_subheader_action = "Action bars font" -- Need review
+L.font_subheader_threat = "Threat meter font" -- Need review
+L.font_subheader_raidcd = "Raid cooldowns font" -- Need review
+L.font_subheader_cooldown = "Cooldowns timer font" -- Need review
+L.font_subheader_loot = "Loot font" -- Need review
+L.font_subheader_nameplates = "Nameplates font" -- Need review
+L.font_subheader_unit = "Unit frames font" -- Need review
+L.font_subheader_aura = "Auras font" -- Need review
+L.font_subheader_filger = "Filger font" -- Need review
+L.font_subheader_style = "Stylization font" -- Need review
+L.font_subheader_bag = "Bags font" -- Need review
 
 -- Miscellaneous options
 L_GUI_MISC_SUBTEXT = "Other settings that add interesting features." -- Need review
@@ -41,12 +65,14 @@ L_GUI_MISC_COLOR_PICKER = "改進型顏色選擇器"
 L_GUI_MISC_ENCHANTMENT_SCROLL = "附魔介面顯示附魔卷軸數量"
 L_GUI_MISC_ARCHAEOLOGY = "提示考古學文物辨識及冷卻"
 L_GUI_MISC_CHARS_CURRENCY = "追蹤所有角色金錢信息"
-L_GUI_MISC_ARMORY_LINK = "頭像菜單增加英雄榜鏈接"
+L.misc_armory_link = "Add Armory link" -- Need review
+L.misc_armory_link_desc = "頭像菜單增加英雄榜鏈接"
 L_GUI_MISC_MERCHANT_ITEMLEVEL = "Show item level for weapons and armor in merchant" -- Need review
 L_GUI_MISC_MINIMIZE_MOUSEOVER = "Mouseover for quest minimize button" -- Need review
 L_GUI_MISC_HIDE_BANNER = "自動隱藏Boss額外拾取提示"
 L_GUI_MISC_HIDE_TALKING_HEAD = "Hide Talking Head Frame" -- Need review
 L_GUI_MISC_HIDE_RAID_BUTTON = "Hide button for oUF_RaidDPS" -- Need review
+L_GUI_MISC_LAG_TOLERANCE = "自動更新自訂延遲容許值"
 
 -- Announcements options
 L_GUI_ANNOUNCEMENTS = "通告提醒"
@@ -121,8 +147,10 @@ L_GUI_SKINS_WEAK_AURAS = "WeakAuras"
 -- Combat text options
 L_GUI_COMBATTEXT = "戰鬥文字"
 L_GUI_COMBATTEXT_ENABLE = "開啟xCT戰鬥信息"
-L_GUI_COMBATTEXT_BLIZZ_HEAD_NUMBERS = "暴雪默認傷害/治療模式(需關閉xCT戰鬥信息)"
-L_GUI_COMBATTEXT_DAMAGE_STYLE = "改變模型頂部/玩家頭像的傷害/治療字體"
+L.combattext_blizz_head_numbers = "Enable Blizzard combat text" -- Need review
+L.combattext_blizz_head_numbers_desc = "暴雪默認傷害/治療模式(需關閉xCT戰鬥信息)"
+L.combattext_damage_style = "Change default combat font" -- Need review
+L.combattext_damage_style_desc = "改變模型頂部/玩家頭像的傷害/治療字體"
 L_GUI_COMBATTEXT_DAMAGE = "獨立顯示傷害輸出"
 L_GUI_COMBATTEXT_HEALING = "獨立顯示治療輸出"
 L_GUI_COMBATTEXT_HOTS = "Hot造成的治療"
@@ -273,10 +301,9 @@ L_GUI_GARRISON_ICON = "Garrison icon" -- Need review
 L_GUI_MINIMAP_SIZE = "迷你地圖大小"
 L_GUI_MINIMAP_HIDE_COMBAT = "戰鬥中隱藏迷你地圖"
 L_GUI_MINIMAP_TOGGLE_MENU = "小地圖頂部快捷菜單"
-
--- Map options
-L_GUI_MAP_BG_STYLIZATION = "開啟戰場地圖增強"
-L_GUI_MAP_FOG_OF_WAR = "世界地圖全亮選項"
+L.minimap_bg_map_stylization = "開啟戰場地圖增強"
+L.minimap_fog_of_war = "世界地圖全亮選項"
+L.minimap_fog_of_war_desc = "Right click on the close button of World Map to activate the option to hide fog of war" -- Need review
 
 -- Loot options
 L_GUI_LOOT_SUBTEXT = "Settings for loot frame." -- Need review
@@ -405,9 +432,12 @@ L_GUI_UF_PORTRAIT_WIDTH = "頭像寬度"
 L_GUI_UF_SUBHEADER_PLUGINS = "Plugins" -- Need review
 L_GUI_UF_PLUGINS_GCD = "公共CD計時條"
 L_GUI_UF_PLUGINS_SWING = "普通攻擊計時條"
-L_GUI_UF_PLUGINS_REPUTATION_BAR = "聲望條"
-L_GUI_UF_PLUGINS_EXPERIENCE_BAR = "經驗條"
-L_GUI_UF_PLUGINS_ARTIFACT_BAR = "Azerite Power bar" -- Need review
+L.unitframe_plugins_reputation_bar = "Reputation bar" -- Need review
+L.unitframe_plugins_reputation_bar_desc = "聲望條"
+L.unitframe_plugins_experience_bar = "Experience bar" -- Need review
+L.unitframe_plugins_experience_bar_desc = "經驗條"
+L.unitframe_plugins_artifact_bar = "Azerite Power bar" -- Need review
+L.unitframe_plugins_artifact_bar_desc = "Enable Azerite Power bar (left from player frame by mouseover)" -- Need review
 L_GUI_UF_PLUGINS_SMOOTH_BAR = "平滑條"
 L_GUI_UF_PLUGINS_ENEMY_SPEC = "敵對玩家天賦"
 L_GUI_UF_PLUGINS_COMBAT_FEEDBACK = "玩家/目標框架顯示戰鬥文字"
@@ -453,14 +483,15 @@ L_GUI_UF_SUBHEADER_ICONS = "Icons" -- Need review
 L_GUI_UF_ICONS_ROLE = "團隊中顯示角色類型"
 L_GUI_UF_ICONS_RAID_MARK = "團隊標記"
 L_GUI_UF_ICONS_READY_CHECK = "就緒確認標記"
-L_GUI_UF_ICONS_LEADER = "團隊隊長標記/助手標記/分配者標記"
+L_GUI_UF_ICONS_LEADER = "Leader and assistant" -- Need review
 L_GUI_UF_ICONS_SUMON = "Sumon icons on frames" -- Need review
 L_GUI_UF_PLUGINS_DEBUFFHIGHLIGHT_ICON = "高亮DeBuffs圖示"
 L_GUI_UF_PLUGINS_AURA_WATCH = "團隊法術監視"
 L_GUI_UF_PLUGINS_AURA_WATCH_TIMER = "團隊減益時間"
 L_GUI_UF_PLUGINS_PVP_DEBUFFS = "PVP Debuffs圖示" -- Need review
 L_GUI_UF_PLUGINS_HEALCOMM = "即將受到的治療"
-L_GUI_UF_PLUGINS_AUTO_RESURRECTION = "滑鼠中鍵點擊已死亡的角色時,自動施放復活技能(Clique啟用時無效)"
+L.raidframe_plugins_auto_resurrection = "Auto cast resurrection" -- Need review
+L.raidframe_plugins_auto_resurrection_desc = "滑鼠中鍵點擊已死亡的角色時,自動施放復活技能(Clique啟用時無效)"
 
 -- Panel options
 L_GUI_TOP_PANEL = "頂部信息面板"

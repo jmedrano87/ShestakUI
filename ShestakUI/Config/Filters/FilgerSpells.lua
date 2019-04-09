@@ -1600,7 +1600,7 @@ C["filger_spells"] = {
 			-- Shield of Vengeance
 			{spellID = 184662, filter = "CD"},
 			-- Holy Shock
-			{spellID = 20473, filter = "CD"}
+			{spellID = 20473, filter = "CD"},
 
 			-- PvP
 			-- Honorable Medallion
@@ -2548,7 +2548,7 @@ C["filger_spells"] = {
 			-- PvP
 			-- Honorable Medallion
 			{spellID = 195710, filter = "CD"},
-			--Nether Ward
+			-- Nether Ward
 			{spellID = 212295, filter = "CD"},
 
 			-- Racial
@@ -2747,7 +2747,6 @@ C["filger_spells"] = {
 			{spellID = 118000, filter = "CD"},
 			-- Execute (Fury)
 			{spellID = 5308, filter = "CD"},
-
 
 			-- PvP
 			-- Honorable Medallion

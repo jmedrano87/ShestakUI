@@ -22,17 +22,16 @@ C["media"] = {
 	["proc_sound"] = [[Interface\AddOns\ShestakUI\Media\Sounds\Proc.ogg]],			-- Sound for procs
 	["border_color"] = {0.37, 0.3, 0.3, 1},		-- Color for borders
 	["backdrop_color"] = {0, 0, 0, 1},			-- Color for borders backdrop
-	["overlay_color"] = {0, 0, 0, 0.7},			-- Color for action bars overlay
+	["backdrop_alpha"] = 0.7,					-- Alpha for transparent backdrop
 }
 
 ----------------------------------------------------------------------------------------
 --	General options
 ----------------------------------------------------------------------------------------
 C["general"] = {
-	["auto_scale"] = true,						-- Autoscale
-	["uiscale"] = 0.96,							-- Your value(between 0.64 and 1) if "auto_scale" is disable
 	["welcome_message"] = true,					-- Enable welcome message in chat
-	["custom_lagtolerance"] = false,			-- Custom lag tolerance to your latency
+	["auto_scale"] = true,						-- Autoscale
+	["uiscale"] = 0.96,							-- Your value(between 0.2 and 1) if "auto_scale" is disable
 }
 
 ----------------------------------------------------------------------------------------
@@ -64,6 +63,7 @@ C["misc"] = {
 	["hide_banner"] = true,						-- Hide Boss Banner Loot Frame
 	["hide_talking_head"] = false,				-- Hide Talking Head Frame
 	["hide_raid_button"] = false,				-- Hide button for oUF_RaidDPS (top left mouseover)
+	["custom_lagtolerance"] = false,			-- Custom lag tolerance to your latency
 }
 
 ----------------------------------------------------------------------------------------
@@ -75,14 +75,14 @@ C["announcements"] = {
 	["spells"] = false,							-- Announce when you cast some spell (from the list)
 	["spells_from_all"] = false,				-- Check spells cast from all members
 	["toys"] = false,							-- Announce some annoying toys
-	["says_thanks"] = false,					-- Says thanks for some spells
+	["says_thanks"] = false,					-- Says thanks for some spells (resurrection, from the list)
 	["pull_countdown"] = true,					-- Pull countdown announce(/pc #)
 	["flask_food"] = false,						-- Announce the usage of flasks and food
 	["flask_food_auto"] = false,				-- Auto announce when ReadyCheck(if enable, announce to raid channel)
 	["flask_food_raid"] = false,				-- Announce to raid channel
 	["feasts"] = false,							-- Announce Feasts/Souls/Repair Bots cast
 	["portals"] = false,						-- Announce Portals/Ritual of Summoning cast
-	["bad_gear"] = false,						-- Check bad gear in instance
+	["bad_gear"] = false,						-- Check bad gear in instance (fishing pole, from the list)
 	["safari_hat"] = true,						-- Check Safari Hat
 }
 
@@ -100,7 +100,7 @@ C["automation"] = {
 	["auto_collapse_reload"] = false,			-- Auto collapse ObjectiveTrackerFrame after reload
 	["skip_cinematic"] = false,					-- Auto skip cinematics/movies (disabled if hold Ctrl)
 	["auto_role"] = false,						-- Auto set your role
-	["cancel_bad_buffs"] = false,				-- Auto cancel various buffs
+	["cancel_bad_buffs"] = false,				-- Auto cancel various buffs (from the list)
 	["tab_binder"] = false,						-- Auto change Tab key to only target enemy players
 	["logging_combat"] = false,					-- Auto enables combat log text file in raid instances
 	["buff_on_scroll"] = false,					-- Cast buff on mouse scroll (from the list)
@@ -184,7 +184,7 @@ C["reminder"] = {
 	["solo_buffs_size"] = 45,					-- Icon size
 	-- Raid buffs
 	["raid_buffs_enable"] = true,				-- Show missing raid buffs
-	["raid_buffs_always"] = false,				-- Show frame always
+	["raid_buffs_always"] = false,				-- Show frame always (default show only in raid)
 	["raid_buffs_size"] = 19.2,					-- Icon size
 	["raid_buffs_alpha"] = 0,					-- Transparent icons when the buff is present
 }
@@ -312,12 +312,7 @@ C["minimap"] = {
 	["size"] = 130,								-- Minimap size
 	["hide_combat"] = false,					-- Hide minimap in combat
 	["toggle_menu"] = true,						-- Show toggle menu
-}
-
-----------------------------------------------------------------------------------------
---	Map options
-----------------------------------------------------------------------------------------
-C["map"] = {
+	-- Other
 	["bg_map_stylization"] = true,				-- BG map stylization
 	["fog_of_war"] = false,						-- Remove fog of war on World Map
 }
@@ -471,11 +466,11 @@ C["unitframe"] = {
 	-- Plugins
 	["plugins_gcd"] = false,					-- Global cooldown spark on player frame
 	["plugins_swing"] = false,					-- Swing bar
-	["plugins_reputation_bar"] = false,			-- Reputation bar
-	["plugins_experience_bar"] = false,			-- Experience bar
-	["plugins_artifact_bar"] = false,			-- Artifact Power bar
+	["plugins_reputation_bar"] = false,			-- Reputation bar (left from player frame by mouseover)
+	["plugins_experience_bar"] = false,			-- Experience bar (left from player frame by mouseover)
+	["plugins_artifact_bar"] = false,			-- Artifact Power bar (left from player frame by mouseover)
 	["plugins_smooth_bar"] = false,				-- Smooth bar
-	["plugins_enemy_spec"] = false,				-- Enemy specialization
+	["plugins_enemy_spec"] = false,				-- Enemy specialization in BG and Arena
 	["plugins_combat_feedback"] = false,		-- Combat text on player/target frame
 	["plugins_fader"] = false,					-- Fade unit frames
 	["plugins_diminishing"] = false,			-- Diminishing Returns icons on arena frames
@@ -561,11 +556,12 @@ C["stats"] = {
 	["talents"] = true,							-- Specialization
 	["coords"] = true,							-- Coords
 	["location"] = true,						-- Location
-	["currency_archaeology"] = false,			-- Show Archaeology Fragments under currency tab
-	["currency_cooking"] = true,				-- Show Cooking Awards under currency tab
-	["currency_professions"] = true,			-- Show Profession Tokens under currency tab
-	["currency_raid"] = true,					-- Show Seals under currency tab
-	["currency_misc"] = true,					-- Show Miscellaneous Currency under currency tab
+	-- Currency (displayed in gold stats)
+	["currency_archaeology"] = false,			-- Archaeology Fragments
+	["currency_cooking"] = true,				-- Cooking Awards
+	["currency_professions"] = true,			-- Profession Tokens
+	["currency_raid"] = true,					-- Raid Seals
+	["currency_misc"] = true,					-- Miscellaneous Currency
 }
 
 ----------------------------------------------------------------------------------------

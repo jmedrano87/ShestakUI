@@ -50,7 +50,7 @@ local function setReloadNeeded(isNeeded)
 end
 
 -- check if a reload is needed
-local function checkIsReloadNeeded(sliderValue)
+local function checkIsReloadNeeded()
 	-- if not overrideReload then -- can't check sliders for old value, always flag for reload when they change
 		for frame, value in pairs(old) do
 			if C[frame.group][frame.option] ~= value then
@@ -121,9 +121,33 @@ local function toggle(self)
 	local checked = self:GetChecked()
 
 	if checked then
-		PlaySound("856")
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	else
-		PlaySound("857")
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
+	end
+	if self.group == "error" then
+		if self.option == "white" and checked then
+			local black = ShestakUIOptionsPanelerror.black
+			if black:GetChecked() then
+				black:SetChecked(false)
+				SaveValue(black, false)
+				if old[black] == nil then
+					old[black] = not black:GetChecked()
+				end
+			end
+		end
+
+		if self.option == "black" and checked then
+			local white = ShestakUIOptionsPanelerror.white
+			if white:GetChecked() then
+				white:SetChecked(false)
+				SaveValue(white, false)
+
+				if old[white] == nil then
+					old[white] = not white:GetChecked()
+				end
+			end
+		end
 	end
 
 	SaveValue(self, checked)
@@ -191,7 +215,7 @@ local function toggleRadio(self)
 	self:SetChecked(true) -- don't allow deselecting
 	self.isChecked = true
 
-	PlaySound("856")
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 
 	SaveValue(self, self.index)
 
@@ -274,7 +298,7 @@ end
 -- Sliders
 
 local function onValueChanged(self, value)
-	if self.option == "uiscale" or self.decimal then
+	if self.step < 1 then
 		value = string.format("%.2f", value)
 	else
 		value = floor(value + 0.5)
@@ -289,7 +313,9 @@ local function onValueChanged(self, value)
 
 		if self.needsReload then
 			-- if not true, don't set to false - something else might have changed it
-			-- print(self.oldValue, value)
+			if self.step < 1 then
+				self.oldValue = string.format("%.2f", self.oldValue)
+			end
 			old[self] = self.oldValue
 			checkIsReloadNeeded()
 			-- setReloadNeeded(true)
@@ -299,7 +325,7 @@ local function onValueChanged(self, value)
 	end
 end
 
-local function createSlider(parent, option, lowText, highText, low, high, step, needsReload, text, textDesc, decimal)
+local function createSlider(parent, option, lowText, highText, low, high, step, needsReload, text, textDesc)
 	local sliderName = parent:GetName()..option
 	local f = CreateFrame("Slider", sliderName, parent, "OptionsSliderTemplate")
 
@@ -310,26 +336,30 @@ local function createSlider(parent, option, lowText, highText, low, high, step, 
 
 	_G[sliderName.."Text"]:SetFontObject(GameFontHighlightSmall)
 	_G[sliderName.."Text"]:SetSize(150, 20)
+
 	if text then
 		_G[sliderName.."Text"]:SetText(text)
 	else
-		_G[sliderName.."Text"]:SetText(ns.localization[parent.tag..option])
+		_G[sliderName.."Text"]:SetText(ns[parent.tag.."_"..option])
 	end
 
 	_G[sliderName.."Low"]:SetText(lowText)
 	_G[sliderName.."High"]:SetText(highText)
 
 	f:SetMinMaxValues(low, high)
+	f:SetObeyStepOnDrag(true)
 	f:SetValueStep(step)
 
 	if textDesc then
 		f.tooltipText = textDesc
+	elseif ns[parent.tag.."_"..option.."_desc"] then
+		f.tooltipText = ns[parent.tag.."_"..option.."_desc"]
 	else
 		f.tooltipText = text
 	end
 
 	f.needsReload = needsReload
-	f.decimal = decimal
+	f.step = step
 
 	f:SetScript("OnValueChanged", onValueChanged)
 	parent[option] = f
@@ -357,8 +387,8 @@ local function onSliderEnterPressed(self)
 	self:ClearFocus()
 end
 
-ns.CreateNumberSlider = function(parent, option, lowText, highText, low, high, step, needsReload, text, textDesc, decimal)
-	local slider = createSlider(parent, option, lowText, highText, low, high, step, needsReload, text, textDesc, decimal)
+ns.CreateNumberSlider = function(parent, option, lowText, highText, low, high, step, needsReload, text, textDesc)
+	local slider = createSlider(parent, option, lowText, highText, low, high, step, needsReload, text, textDesc)
 
 	local f = CreateFrame("EditBox", parent:GetName()..option.."TextInput", slider, "InputBoxTemplate")
 	f:SetAutoFocus(false)
@@ -447,8 +477,8 @@ local function setColour()
 	checkIsReloadNeeded()
 end
 
-local function resetColour(restore)
-	local oldR, oldG, oldB = unpack(restore)
+local function resetColour(previousValues)
+	local oldR, oldG, oldB = unpack(previousValues)
 
 	currentColourOption:SetBackdropBorderColor(oldR, oldG, oldB)
 	currentColourOption:SetBackdropColor(oldR, oldG, oldB, 0.3)
@@ -460,9 +490,9 @@ end
 local function onColourSwatchClicked(self)
 	local colourTable = C[self.group][self.option]
 
-	local r, g, b, a = self:GetBackdropBorderColor()
-	r, g, b, a = round(r, 2), round(g, 2), round(b, 2), round(a, 2)
-	local originalR, originalG, originalB, originalA = r, g, b, a
+	local r, g, b = unpack(colourTable)
+	r, g, b = round(r), round(g), round(b)
+	local originalR, originalG, originalB = r, g, b
 
 	currentColourOption = self
 
@@ -482,9 +512,9 @@ ns.CreateColourPicker = function(parent, option, needsReload, text)
 	local f = CreateFrame("Button", nil, parent)
 	f:SetSize(40, 20)
 
-	local tex = f:CreateTexture(nil, "OVERLAY")
-	tex:SetAllPoints()
-	f.tex = tex
+	-- local tex = f:CreateTexture(nil, "OVERLAY")
+	-- tex:SetAllPoints()
+	-- f.tex = tex
 
 	local colortext = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 	colortext:SetText(COLOR)
@@ -493,7 +523,11 @@ ns.CreateColourPicker = function(parent, option, needsReload, text)
 	f:SetWidth(colortext:GetWidth() + 5)
 
 	local label = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-	label:SetText(text)
+	if text then
+		label:SetText(text)
+	else
+		label:SetText(ns[parent.tag.."_"..option])
+	end
 	label:SetWidth(440)
 	label:SetHeight(20)
 	label:SetJustifyH("LEFT")
@@ -516,13 +550,15 @@ end
 
 ns.CreateDropDown = function(parent, option, needsReload, text, tableValue)
 	local f = CreateFrame("Frame", parent:GetName()..option.."DropDown", parent, "UIDropDownMenuTemplate")
-	UIDropDownMenu_SetWidth(f, 80)
+	UIDropDownMenu_SetWidth(f, 110)
 
 	UIDropDownMenu_Initialize(f, function(self)
 		local info = UIDropDownMenu_CreateInfo()
 		info.func = self.SetValue
 		for _, value in pairs(tableValue) do
-			info.text, info.arg1, info.checked = value, value, value == f.selectedValue
+			info.text = value
+			info.arg1 = value
+			info.checked = value == f.selectedValue
 			UIDropDownMenu_AddButton(info)
 		end
 	end)
@@ -537,7 +573,11 @@ ns.CreateDropDown = function(parent, option, needsReload, text, tableValue)
 	end
 
 	local label = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-	label:SetText(text)
+	if text then
+		label:SetText(text)
+	else
+		label:SetText(ns[parent.tag.."_"..option])
+	end
 	label:SetWidth(440)
 	label:SetHeight(20)
 	label:SetJustifyH("LEFT")
@@ -656,7 +696,12 @@ ns.addCategory = function(name, text, subText, second, third)
 		panel.general = general
 		panel.optional = optional
 
-		panel_2.tag = tag
+		if name == "general" then
+			panel_2.tag = "media"
+		else
+			panel_2.tag = tag
+		end
+
 		ShestakUIOptionsPanel[tag2] = panel_2
 
 		panel_2.Title = panel_2:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
@@ -676,7 +721,6 @@ ns.addCategory = function(name, text, subText, second, third)
 			end
 		end)
 
-		panel_2:EnableMouseWheel(true)
 		panel_2:SetScript("OnMouseWheel", function(self, delta)
 			if delta > 0 then
 				general:Click()
@@ -754,7 +798,7 @@ ns.addCategory = function(name, text, subText, second, third)
 
 			panel_3.Title = panel_3:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 			panel_3.Title:SetPoint("TOPLEFT", 8, -16)
-			panel_3.Title:SetText(ns.localization[tag])
+			panel_3.Title:SetText(text)
 
 			panel_3.subText = panel_3:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 			panel_3.subText:SetPoint("TOPLEFT", panel_3.Title, "BOTTOMLEFT", 0, -8)
@@ -762,6 +806,26 @@ ns.addCategory = function(name, text, subText, second, third)
 			panel_3.subText:SetJustifyV("TOP")
 			panel_3.subText:SetSize(570 * mult, 30 * mult)
 			panel_3.subText:SetText(subText)
+
+			panel:SetScript("OnMouseWheel", function(self, delta)
+				if delta < 0 then
+					optional:Click()
+				end
+			end)
+
+			panel_2:SetScript("OnMouseWheel", function(self, delta)
+				if delta > 0 then
+					general:Click()
+				elseif delta < 0 then
+					more:Click()
+				end
+			end)
+
+			panel_3:SetScript("OnMouseWheel", function(self, delta)
+				if delta > 0 then
+					optional:Click()
+				end
+			end)
 		end
 	end
 
@@ -869,9 +933,8 @@ local function displaySettings()
 	userChangedSlider = true
 
 	for _, picker in pairs(colourpickers) do
-		local colourTable = C[picker.group][picker.option]
-		-- print(unpack(colourTable))
-		picker.tex:SetVertexColor(unpack(colourTable))
+		-- local colourTable = C[picker.group][picker.option]
+		-- picker.tex:SetVertexColor(unpack(colourTable))
 	end
 
 	for _, editbox in pairs(editboxes) do

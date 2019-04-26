@@ -18,12 +18,10 @@ local colors = {
 	[4] = {0.42, 0.18, 0.74},
 }
 
-local GetTotemInfo, SetValue, GetTime = GetTotemInfo, SetValue, GetTime
-
 local function UpdateSlot(self, slot)
 	local totem = self.TotemBar
 	if not totem[slot] then return end
-	local haveTotem, name, startTime, duration, totemIcon = GetTotemInfo(slot)
+	local haveTotem, _, startTime, duration = GetTotemInfo(slot)
 
 	totem[slot]:SetStatusBarColor(unpack(totem.colors[slot]))
 	totem[slot]:SetValue(0)
@@ -47,7 +45,7 @@ local function UpdateSlot(self, slot)
 				total = total + elapsed
 				if total >= delay then
 					total = 0
-					haveTotem, name, startTime, duration, totemIcon = GetTotemInfo(self.ID)
+					haveTotem, _, startTime, duration = GetTotemInfo(self.ID)
 					if startTime == 0 then return end
 					if ((GetTime() - startTime) == 0) then
 						self:SetValue(0)
@@ -89,7 +87,7 @@ local function Enable(self, unit)
 	local totem = self.TotemBar
 
 	if totem then
-		self:RegisterEvent("PLAYER_TOTEM_UPDATE", Event)
+		self:RegisterEvent("PLAYER_TOTEM_UPDATE", Event, true)
 		totem.colors = setmetatable(totem.colors or {}, {__index = colors})
 		delay = totem.delay or delay
 		if totem.Destroy then
